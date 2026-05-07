@@ -1,0 +1,36 @@
+{
+    "name": "Ubuntu Web Dev",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "remoteUser": "dev",
+    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+    // Mount the agent socket from the host (WSL) into the container
+    "mounts": [
+        // Use ${env:SSH_AUTH_SOCK} when VS Code is running inside WSL (your case)
+        "type=bind,source=${env:SSH_AUTH_SOCK},target=/ssh-agent"
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode",
+                "eamodio.gitlens",
+                "mhutchie.git-graph",
+                "gruntfuggly.todo-tree"
+            ],
+            "settings": {
+                "editor.formatOnSave": true,
+                "files.eol": "\n"
+            }
+        }
+    },
+    // Command run once after the container is built and attached
+    // Good place for sanity checks, uv sync, git submodules, etc.
+    "postCreateCommand": "bash .devcontainer/post-create.sh",
+    "containerEnv": {
+        "SSH_AUTH_SOCK": "/ssh-agent",
+        "PROMPT_CONTAINER_TAG": "ubuntuweb",
+        "PROMPT_SHOW_HOSTNAME": "false"
+    }
+}
