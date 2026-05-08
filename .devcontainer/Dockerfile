@@ -5,9 +5,10 @@ ARG USERNAME=dev
 ARG USER_UID=1000
 ARG USER_GID=1000
 
-# Create non-root user
-RUN groupadd --gid $USER_GID $USERNAME \
-    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME
+# Create non-root user (remove default ubuntu user that owns UID/GID 1000 in Ubuntu 24.04)
+RUN userdel -r ubuntu 2>/dev/null || true \
+    && groupadd --gid $USER_GID $USERNAME \
+    && useradd --uid $USER_UID --gid $USER_GID -m -s /bin/bash $USERNAME
 
 # Make user sudo
 ARG INSTALL_SUDO=true
