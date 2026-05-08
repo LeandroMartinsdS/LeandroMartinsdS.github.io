@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leandro Martins | Editorial Version</title>
+    <meta
+      name="description"
+      content="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Spectral:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../assets/css/styles-editorial.css" />
+  </head>
+  <body>
+    <main class="layout">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="label" id="profile-name"></p>
+          <h1 id="profile-headline"></h1>
+          <p id="profile-summary"></p>
+        </div>
+        <figure class="hero-photo is-empty">
+          <img
+            id="hero-portrait"
+            src=""
+            alt=""
+            loading="lazy"
+            onerror="this.parentElement.classList.add('is-empty'); this.remove();"
+          />
+          <span class="hero-photo-fallback" id="hero-photo-fallback" aria-hidden="true">LM</span>
+        </figure>
+      </section>
+
+      <section class="panel">
+        <h2>Networks</h2>
+        <ul id="contact-list"></ul>
+      </section>
+
+      <section class="panel">
+        <h2>Publications</h2>
+        <div id="publication-list"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Projects & Highlights</h2>
+        <div id="project-list"></div>
+      </section>
+
+      <footer>
+        <p>&copy; <span id="yr"></span> Leandro Martins</p>
+      </footer>
+    </main>
+    <script type="module">
+      import { currentYear, siteContent } from "../assets/js/site-content.js";
+      import { renderEditorialLayout } from "../assets/js/site-render.js";
+
+      renderEditorialLayout(siteContent, currentYear);
+    </script>
+  </body>
+</html>
