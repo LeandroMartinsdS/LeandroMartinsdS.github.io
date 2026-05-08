@@ -10,18 +10,18 @@ export const siteContent = Object.freeze({
     portrait: {
       src: portraitSrc,
       alt: "Portrait of Leandro Martins",
-      fallback: "LM",
+      fallback: "LMdS",
     },
   },
   contacts: [
     {
       label: "LinkedIn",
-      href: "#",
-      text: "linkedin.com/in/yourprofile",
+      href: "https://www.linkedin.com/in/leandro-martins-dos-santos",
+      text: "linkedin.com/in/leandro-martins-dos-santos",
     },
     {
       label: "GitHub",
-      href: "#",
+      href: "https://github.com/LeandroMartinsdS",
       text: "github.com/LeandroMartinsdS",
     },
     {
