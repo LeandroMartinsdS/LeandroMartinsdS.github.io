@@ -19,6 +19,32 @@ function createLink(href, text) {
   return link;
 }
 
+function createNetworkIcon(label) {
+  const svgNS = "http://www.w3.org/2000/svg";
+  const icon = document.createElementNS(svgNS, "svg");
+  const normalized = label.toLowerCase();
+
+  icon.setAttribute("viewBox", "0 0 24 24");
+  icon.setAttribute("aria-hidden", "true");
+  icon.setAttribute("focusable", "false");
+
+  if (normalized === "linkedin") {
+    icon.innerHTML =
+      '<path d="M6.94 8.5H3.56V20h3.38V8.5ZM5.25 3A1.96 1.96 0 1 0 5.3 6.92 1.96 1.96 0 0 0 5.25 3ZM12.15 20h3.38v-5.63c0-1.48.28-2.9 2.11-2.9 1.8 0 1.83 1.68 1.83 3V20h3.38v-6.22c0-3.06-.66-5.41-4.24-5.41-1.72 0-2.87.94-3.34 1.84h-.05V8.5h-3.24V20Z"/>';
+    return icon;
+  }
+
+  if (normalized === "github") {
+    icon.innerHTML =
+      '<path d="M12 2a10 10 0 0 0-3.16 19.5c.5.1.68-.22.68-.48v-1.68c-2.78.61-3.37-1.18-3.37-1.18-.46-1.17-1.11-1.48-1.11-1.48-.91-.62.07-.6.07-.6 1 .07 1.54 1.05 1.54 1.05.9 1.53 2.35 1.09 2.92.83.09-.65.35-1.09.64-1.34-2.22-.25-4.56-1.11-4.56-4.93 0-1.09.39-1.97 1.03-2.67-.1-.25-.45-1.28.1-2.66 0 0 .84-.27 2.75 1.02A9.42 9.42 0 0 1 12 6.8c.85 0 1.7.12 2.5.36 1.91-1.3 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.66.64.7 1.03 1.58 1.03 2.67 0 3.83-2.34 4.67-4.58 4.92.36.31.68.92.68 1.86v2.76c0 .27.18.59.69.48A10 10 0 0 0 12 2Z"/>';
+    return icon;
+  }
+
+  icon.innerHTML =
+    '<path d="M20 5H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 2v.5L12 13 4 7.5V7h16ZM4 17V9.74l7.4 5.15a1 1 0 0 0 1.2 0L20 9.74V17H4Z"/>';
+  return icon;
+}
+
 function clearNode(node) {
   if (node) {
     node.textContent = "";
@@ -131,12 +157,25 @@ export function renderEditorialLayout(siteContent, currentYear) {
     portrait.alt = profile.portrait.alt;
   }
 
-  const contactList = document.getElementById("contact-list");
-  clearNode(contactList);
+  const profileNetworkList = document.getElementById("profile-network-list");
+  clearNode(profileNetworkList);
   contacts.forEach((contact) => {
     const item = document.createElement("li");
-    item.appendChild(createLink(contact.href, contact.text));
-    contactList?.appendChild(item);
+    const link = document.createElement("a");
+    const isMail = contact.href.startsWith("mailto:");
+
+    item.className = "profile-network-item";
+    link.href = contact.href;
+    link.className = "profile-network-link";
+    link.ariaLabel = contact.label;
+    link.title = contact.label;
+    if (!isMail) {
+      link.target = "_blank";
+      link.rel = "noreferrer noopener";
+    }
+    link.appendChild(createNetworkIcon(contact.label));
+    item.appendChild(link);
+    profileNetworkList?.appendChild(item);
   });
 
   const renderArticle = (entry, root) => {
