@@ -32,9 +32,27 @@ export const siteContent = Object.freeze({
   ],
   publications: [
     {
-      title: "Your Paper Title",
-      meta: "Lorem ipsum dolor sit amet - 2026",
-      href: "#",
+      title: "The Mirror Systems Benches Kinematics Development for Sirius/LNLS",
+      meta: "JACoW ICALEPCS2021 - 2022",
+      href: "https://inspirehep.net/literature/2076524",
+      cta: "Read",
+    },
+    {
+      title: "The Control System of the Four-Bounce Crystal Monochromators for SIRIUS/LNLS Beamlines",
+      meta: "JACoW ICALEPCS2021 - 2022",
+      href: "https://inspirehep.net/literature/2076537",
+      cta: "Read",
+    },
+    {
+      title: "Position Scanning Solutions at the TARUMÃ Station at the CARNAÚBA Beamline at Sirius/LNLS",
+      meta: "JACoW ICALEPCS2021 - 2022",
+      href: "https://inspirehep.net/literature/2076611",
+      cta: "Read",
+    },
+    {
+      title: "Four-Bounce Crystal Monochromators for the Sirius/LNLS Beamlines",
+      meta: "JACoW MEDSI2020 - 2021",
+      href: "https://inspirehep.net/literature/1978564",
       cta: "Read",
     },
   ],
