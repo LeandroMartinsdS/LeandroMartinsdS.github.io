@@ -26,8 +26,16 @@ export const siteContent = Object.freeze({
     },
     {
       label: "Email",
-      href: "mailto:leandro.martins.ctrleng@gmail.com",
-      text: "leandro.martins.ctrleng@gmail.com",
+      emails: [
+        {
+          address: "leandro.martins@cern.ch",
+          description: "CERN related",
+        },
+        {
+          address: "leandro.martins.ctrleng@gmail.com",
+          description: "Any other business",
+        },
+      ],
     },
   ],
   publications: [

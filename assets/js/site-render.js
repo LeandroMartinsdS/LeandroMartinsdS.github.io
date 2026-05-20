@@ -19,6 +19,134 @@ function createLink(href, text) {
   return link;
 }
 
+function normalizeEmailOptions(emails) {
+  if (!Array.isArray(emails)) {
+    return [];
+  }
+
+  return emails
+    .map((entry) => {
+      if (typeof entry === "string") {
+        return { address: entry, description: "" };
+      }
+
+      if (entry && typeof entry === "object") {
+        const address = typeof entry.address === "string" ? entry.address : "";
+        const description = typeof entry.description === "string" ? entry.description : "";
+        return { address, description };
+      }
+
+      return { address: "", description: "" };
+    })
+    .filter((entry) => entry.address.length > 0);
+}
+
+function getContactLinkData(contact) {
+  const emailOptions = normalizeEmailOptions(contact.emails);
+  if (emailOptions.length > 0) {
+    return {
+      href: `mailto:${emailOptions.map((entry) => entry.address).join(",")}`,
+      text: emailOptions.map((entry) => entry.address).join(" / "),
+    };
+  }
+
+  return {
+    href: contact.href,
+    text: contact.text,
+  };
+}
+
+function chooseEmailRecipient(emails) {
+  const emailOptions = normalizeEmailOptions(emails);
+  if (emailOptions.length === 0) {
+    return Promise.resolve(null);
+  }
+
+  if (emailOptions.length === 1) {
+    return Promise.resolve(emailOptions[0].address);
+  }
+
+  return new Promise((resolve) => {
+    const dialog = document.createElement("dialog");
+    const card = document.createElement("div");
+    const title = document.createElement("p");
+    const buttonGroup = document.createElement("div");
+    const cancelButton = document.createElement("button");
+
+    dialog.className = "email-picker";
+    card.className = "email-picker-card";
+    title.className = "email-picker-title";
+    buttonGroup.className = "email-picker-buttons";
+    cancelButton.className = "email-picker-cancel";
+
+    title.textContent = "Choose an email recipient";
+
+    const closeWith = (value) => {
+      if (dialog.open) {
+        dialog.close();
+      }
+      dialog.remove();
+      resolve(value);
+    };
+
+    emailOptions.forEach((option) => {
+      const button = document.createElement("button");
+      const label = document.createElement("span");
+      button.type = "button";
+      button.className = "email-picker-option";
+
+      label.className = "email-picker-option-label";
+      label.textContent = option.address;
+      button.appendChild(label);
+
+      if (option.description) {
+        const description = document.createElement("span");
+        description.className = "email-picker-option-description";
+        description.textContent = option.description;
+        button.appendChild(description);
+      }
+
+      button.addEventListener("click", () => closeWith(option.address));
+      buttonGroup.appendChild(button);
+    });
+
+    cancelButton.type = "button";
+    cancelButton.textContent = "Cancel";
+    cancelButton.addEventListener("click", () => closeWith(null));
+
+    dialog.addEventListener("cancel", () => closeWith(null));
+    dialog.addEventListener("close", () => {
+      if (document.body.contains(dialog)) {
+        dialog.remove();
+      }
+    });
+
+    card.append(title, buttonGroup, cancelButton);
+    dialog.appendChild(card);
+    document.body.appendChild(dialog);
+    dialog.showModal();
+  });
+}
+
+function wireMultiEmailClick(link, contact) {
+  const emailOptions = normalizeEmailOptions(contact.emails);
+  if (emailOptions.length <= 1) {
+    return;
+  }
+
+  link.href = "#";
+  link.addEventListener("click", async (event) => {
+    event.preventDefault();
+
+    const selectedEmail = await chooseEmailRecipient(contact.emails);
+    if (!selectedEmail) {
+      return;
+    }
+
+    window.location.href = `mailto:${selectedEmail}`;
+  });
+}
+
 function createNetworkIcon(label) {
   const svgNS = "http://www.w3.org/2000/svg";
   const icon = document.createElementNS(svgNS, "svg");
@@ -65,9 +193,10 @@ export function renderShowcaseLayout(siteContent, currentYear) {
   contacts.forEach((contact) => {
     const item = document.createElement("li");
     const label = document.createElement("span");
+    const linkData = getContactLinkData(contact);
 
     label.textContent = contact.label;
-    item.append(label, document.createElement("br"), createLink(contact.href, contact.text));
+    item.append(label, document.createElement("br"), createLink(linkData.href, linkData.text));
     contactList?.appendChild(item);
   });
 
@@ -116,9 +245,10 @@ export function renderCleanLayout(siteContent, currentYear) {
   contacts.forEach((contact) => {
     const item = document.createElement("li");
     const label = document.createElement("span");
+    const linkData = getContactLinkData(contact);
 
     label.textContent = contact.label;
-    item.append(label, document.createElement("br"), createLink(contact.href, contact.text));
+    item.append(label, document.createElement("br"), createLink(linkData.href, linkData.text));
     contactList?.appendChild(item);
   });
 
@@ -166,13 +296,15 @@ export function renderEditorialLayout(siteContent, currentYear) {
   contacts.forEach((contact) => {
     const item = document.createElement("li");
     const link = document.createElement("a");
-    const isMail = contact.href.startsWith("mailto:");
+    const linkData = getContactLinkData(contact);
+    const isMail = linkData.href.startsWith("mailto:");
 
     item.className = "profile-network-item";
-    link.href = contact.href;
+    link.href = linkData.href;
     link.className = "profile-network-link";
     link.ariaLabel = contact.label;
-    link.title = contact.label;
+    link.title = linkData.text || contact.label;
+    wireMultiEmailClick(link, contact);
     if (!isMail) {
       link.target = "_blank";
       link.rel = "noreferrer noopener";
