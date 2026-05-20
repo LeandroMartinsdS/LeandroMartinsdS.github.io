@@ -57,12 +57,12 @@ export const siteContent = Object.freeze({
     },
   ],
   projects: [
-    {
-      title: "Project Name",
-      meta: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      href: "#",
-      cta: "View",
-    },
+    // {
+    //   title: "Project Name",
+    //   meta: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    //   href: "#",
+    //   cta: "View",
+    // },
   ],
 });
 

@@ -95,6 +95,8 @@ export function renderShowcaseLayout(siteContent, currentYear) {
   clearNode(publicationList);
   publications.forEach((entry) => renderListItem(entry, publicationList));
 
+  const projectSection = document.getElementById("projects-section");
+  if (projectSection) projectSection.hidden = projects.length === 0;
   const projectList = document.getElementById("project-list");
   clearNode(projectList);
   projects.forEach((entry) => renderListItem(entry, projectList));
@@ -136,6 +138,8 @@ export function renderCleanLayout(siteContent, currentYear) {
   clearNode(publicationRoot);
   publications.forEach((entry) => renderArticle(entry, publicationRoot, "publication"));
 
+  const projectSection = document.getElementById("projects-section");
+  if (projectSection) projectSection.hidden = projects.length === 0;
   const projectRoot = document.getElementById("project-list");
   clearNode(projectRoot);
   projects.forEach((entry) => renderArticle(entry, projectRoot, "project"));
@@ -193,6 +197,8 @@ export function renderEditorialLayout(siteContent, currentYear) {
   clearNode(publicationRoot);
   publications.forEach((entry) => renderArticle(entry, publicationRoot));
 
+  const projectSection = document.getElementById("projects-section");
+  if (projectSection) projectSection.hidden = projects.length === 0;
   const projectRoot = document.getElementById("project-list");
   clearNode(projectRoot);
   projects.forEach((entry) => renderArticle(entry, projectRoot));
