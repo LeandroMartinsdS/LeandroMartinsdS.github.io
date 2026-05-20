@@ -123,6 +123,85 @@ h1 {
   fill: currentColor;
 }
 
+.email-picker {
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--paper);
+  color: var(--text);
+  width: min(520px, calc(100% - 2rem));
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.45);
+}
+
+.email-picker::backdrop {
+  background: rgba(7, 10, 16, 0.58);
+  backdrop-filter: blur(1px);
+}
+
+.email-picker-card {
+  display: grid;
+  gap: 0.65rem;
+  padding: 1rem;
+}
+
+.email-picker-title {
+  margin: 0 0 0.35rem;
+  font-family: "Spectral", serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.email-picker-buttons {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.email-picker-option,
+.email-picker-cancel {
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  cursor: pointer;
+  transition: transform 140ms ease, border-color 140ms ease, background-color 140ms ease;
+}
+
+.email-picker-option {
+  padding: 0.62rem 0.78rem;
+  background: rgba(255, 255, 255, 0.02);
+  display: grid;
+  gap: 0.18rem;
+}
+
+.email-picker-option-label {
+  font-weight: 700;
+}
+
+.email-picker-option-description {
+  display: block;
+  color: color-mix(in srgb, var(--accent) 35%, var(--text));
+  font-size: 0.86rem;
+  line-height: 1.35;
+}
+
+.email-picker-cancel {
+  padding: 0.55rem 0.78rem;
+  background: transparent;
+  color: var(--muted);
+}
+
+.email-picker-option:hover,
+.email-picker-option:focus-visible,
+.email-picker-cancel:hover,
+.email-picker-cancel:focus-visible {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
+  background: rgba(120, 198, 174, 0.12);
+  outline: none;
+}
+
 .hero-photo {
   margin: 0;
   min-height: 260px;
@@ -219,5 +298,9 @@ footer p {
 
   .hero-photo img {
     min-height: 220px;
+  }
+
+  .email-picker {
+    width: calc(100% - 1rem);
   }
 }
