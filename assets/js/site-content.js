@@ -1,12 +1,14 @@
 const portraitSrc = new URL("../images/portrait.jpg", import.meta.url).href;
 
 export const siteContent = Object.freeze({
-  metaDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  metaDescription: "",
+  // "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
   profile: {
     name: "Leandro Martins dos Santos",
     headline: "Mechatronics and Motion Control Engineering for High-Precision Systems",
     summary:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "",
+    // "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     portrait: {
       src: portraitSrc,
       alt: "Portrait of Leandro Martins",
